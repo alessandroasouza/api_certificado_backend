@@ -17,3 +17,14 @@
 
 
 10. php artisan db:seed para gerar dados fakes de teste
+
+
+##Git##
+
+gir pull baixar todas as atualizações
+
+git add .  -> adicionar arquivos todos os arquivos
+git comit -m "descreva aqui o que você fez" -> Commit do código
+git git push -> Enviar para o servidor GitHub
+
+git checkout -b alteracao_que_voce_vai_fazer
