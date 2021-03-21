@@ -16,8 +16,9 @@ class CreateEventosTable extends Migration
         Schema::create('eventos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descricao',40);
-            $table->string('palestrante',40);
-            $table->string('obervcacao',100);
+            $table->integer('id_usuario')->unsigned();
+            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->string('nota',300);
             $table->string('inicio',5);
             $table->integer('ativo');
             $table->timestamps();
