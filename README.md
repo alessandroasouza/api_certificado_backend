@@ -21,7 +21,7 @@
 
 ##Git##
 
-gir pull baixar todas as atualizações
+git pull ou git pull origin main baixar todas as atualizações
 
 git add .  -> adicionar arquivos todos os arquivos
 git comit -m "descreva aqui o que você fez" -> Commit do código
