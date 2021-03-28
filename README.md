@@ -19,6 +19,10 @@
 10. php artisan db:seed para gerar dados fakes de teste
 
 
+composer require flipbox/lumen-generator
+ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
+
 ##Git##
 
 git pull ou git pull origin main baixar todas as atualizações
