@@ -3,7 +3,7 @@
 1.Para efeutar a instalação deve-e primeiramente clonar o projeto;
 
 
-3.Em seguida será necessário insalar os pacotes via Composer. Na pasta raiz do projeto executar:
+3.Em seguida será necessário insalar os pacotes via Composer[composer install]. Na pasta raiz do projeto executar:
 
 
 

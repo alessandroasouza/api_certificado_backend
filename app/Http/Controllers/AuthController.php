@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use  App\Models\User;
+use  App\Models\Access_tokens;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Collection as Collection;
 
 /**
  * Class SubscriptionController
@@ -63,9 +66,33 @@ class AuthController  extends BaseController
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $id = Auth::id();
+        $register_token = $this->respondWithToken($token); 
+        
+        
+        $this->login_register($register_token,$id);
+        
+        return $register_token;
     }
 
+    protected function login_register($register,$id)
+    {
+        try {
+           
+            $access_tokens             = new Access_tokens;
+            $access_tokens->token      =  $register->getData()->token;
+            $access_tokens->expire_at  =  $register->getData()->expires_in;
+            $access_tokens->user_id    = $id;
+            $access_tokens->save();
+            
+        } catch (\Exception $e) {
+           
+           return response()->json(['message' => 'User Registration Failed!'], 409);
+        }
+
+    }
+        
+    
     protected function respondWithToken($token)
     {
         return response()->json([
