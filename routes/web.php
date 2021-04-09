@@ -20,6 +20,9 @@ $router->get('/', function () use ($router) {
 
 // API route group
 
+
+
+
 $router->group(['prefix' => 'api/user'], function () use ($router) {
     $router->post('/store', 'AuthController@store');
     $router->post('/login', 'AuthController@login');
@@ -34,6 +37,7 @@ $router->group(['prefix' => 'api/user'], function () use ($router) {
 
 
 Route::group(['middleware' => 'auth'], function ($router) {
-//Rotas com autenticação ou definir na instancia da classe
-
+    $router->group(['prefix' => 'api/eventos'], function () use ($router) {
+       $router->get('/', 'EventosController@index');
+    });
 });

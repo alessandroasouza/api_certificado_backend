@@ -19,6 +19,7 @@ class CreateEventosTable extends Migration
             $table->integer('id_usuario')->unsigned();
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->string('nota',300);
+            $table->date('data_inicio');
             $table->string('inicio',5);
             $table->integer('ativo');
             $table->timestamps();
