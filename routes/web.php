@@ -32,6 +32,7 @@ $router->group(['prefix' => 'api/user'], function () use ($router) {
     $router->get('/', 'UserController@index');
     $router->post('/update', 'UserController@update');
     $router->post('/delete', 'UserController@destroy');
+    $router->post('/logout', 'UserController@logout');
  });
 
 
