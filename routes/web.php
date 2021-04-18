@@ -40,5 +40,9 @@ $router->group(['prefix' => 'api/user'], function () use ($router) {
 Route::group(['middleware' => 'auth'], function ($router) {
     $router->group(['prefix' => 'api/eventos'], function () use ($router) {
        $router->get('/', 'EventosController@index');
+       $router->post('/store', 'EventosController@store');
+       $router->get('/{id}', 'EventosController@show');
+       $router->post('/delete', 'EventosController@destroy');
+       $router->post('/update', 'EventosController@update');
     });
 });
