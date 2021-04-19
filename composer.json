@@ -7,7 +7,9 @@
     "require": {
         "php": "^7.3|^8.0",
         "flipbox/lumen-generator": "^8.2",
+        "illuminate/mail": "^8.37",
         "laravel/lumen-framework": "^8.0",
+        "swiftmailer/swiftmailer": "6.0",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {

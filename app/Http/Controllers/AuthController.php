@@ -6,8 +6,12 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use  App\Models\User;
 use  App\Models\Access_tokens;
+use  App\Models\Password_reset;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection as Collection;
 
 /**
@@ -85,6 +89,8 @@ class AuthController  extends BaseController
             $access_tokens->user_id    = $id;
             $access_tokens->save();
             
+            return  $access_tokens;
+
         } catch (\Exception $e) {
            
            return response()->json(['message' => 'User Registration Failed!'], 409);
@@ -93,12 +99,113 @@ class AuthController  extends BaseController
     }
         
     
-    protected function respondWithToken($token)
-    {
+    protected function respondWithToken($token){
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60
         ], 200);
+    }
+
+    
+    protected function savepass($email,$token,$id_user){
+        try {
+           
+            $password_reset             =  new Password_reset;
+            $password_reset->token      =  $token;
+            $password_reset->email      =  $email;
+            $password_reset->user_id    =  $id_user;
+            $password_reset->save();
+           
+            return  $password_reset;
+
+        } catch (\Exception $e) {
+          return response()->json(['message' => 'Erro ao registrar Token do usuário'], 409);
+        }
+    }
+    
+    public function validatetoken(Request $request){
+        
+        $token_data = $request->token;
+        
+        if ( $data = Password_reset::where('token', $token_data)->first() ){
+            $id = $data->user_id;
+            return response()->json(['message' => 'true']); 
+            
+        }
+        else{
+            return response()->json(['message' => 'Código não encontrado'], 401);  
+        }
+    }
+    
+    public function resetPassword(Request $request){
+        $new_pass = $request->token;
+        
+        $user->password = $new_pass;
+        
+        if ($user->update() ){
+          
+            DB::table('password_reset')->where('email', $user->email)->delete();
+          
+          return response()->json(['message' => 'true']); 
+          
+          
+          $data    = array('name'=>$name,
+                'password'=>$token,
+                'msg'=>'Senha Alterada com Sucesso'
+            );
+          
+          Mail::send('mail', $data, function ($message) use ($email) {
+            $message->to($email, 'Recuperação de Senha')->subject
+                ('Recuperação de Senha');
+            $message->from('certificadoftc@gmail.com','FTC - Sistema Certificado');
+            });
+        }
+         else{
+            return response()->json(['message' => 'Código não encontrado'], 401);  
+        }
+    }
+    
+    
+    public function reset(Request $request){
+        $email    = $request->email;
+        $user     = User::where('email',$email)->first();
+        
+        
+      
+        if($user) {
+            $id_user  = $user->id;
+            $token    = Str::random(10);
+            $name     =  $user->nome;
+            $reset    = $this->savepass($email,$token,$id_user); 
+           
+           
+            if($reset){
+               
+                $data    = array('name'=>$name,
+                'password'=>$token
+               );
+
+                    Mail::send('mail', $data, function ($message) use ($email) {
+                    $message->to($email, 'Recuperação de Senha')->subject
+                        ('Recuperação de Senha');
+                    $message->from('certificadoftc@gmail.com','FTC - Sistema Certificado');
+                    });
+              
+             return response()->json(['message' => 'true']);      
+            }
+            
+            
+         } 
+        else 
+        {
+         return response()->json(['message' => 'usuário não encontrado'], 401);
+        }
+
+
+        
+       
+
+      
     }
 }

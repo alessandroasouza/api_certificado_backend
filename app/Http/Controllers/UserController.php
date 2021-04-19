@@ -30,7 +30,7 @@ class UserController   extends Controller{
 
     public function show($id){
         try {
-            $user = User::findOrFail($id);
+            $user = User::find($id);
             return response()->json(['user' => $user], 200);
 
         } catch (\Exception $e) {
