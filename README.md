@@ -21,6 +21,10 @@
 
 composer require flipbox/lumen-generator
  $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+ 
+[Instalar serviço de email] 
+composer require "swiftmailer/swiftmailer:^6.0"
+composer require illuminate/mail
 
 
 ##Git##
