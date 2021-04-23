@@ -6,6 +6,10 @@ use  App\Models\Eventos;
 
 class EventosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(){
         return response()->json(['eventos' =>  Eventos::all()], 200);
     }
@@ -35,7 +39,7 @@ class EventosController extends Controller
     
     public function update(Request $request){
         $evento = Eventos::find($request->id);
-
+        $request['data_inicio'] = date('Y-m-d', strtotime($request->data_inicio));
         $data = array_filter($request->all(), function($item){
           return !empty($item[0]);
         });
@@ -49,25 +53,22 @@ class EventosController extends Controller
     
     public function store(Request $request)
     {
-       
         try {
-
             $evento = new Eventos;
             $evento->descricao  = $request->descricao;
             $evento->id_usuario = $request->id_usuario;
             $evento->nota       = $request->nota;
-            $evento->data_inicio= $request->data_inicio;
+            $evento->data_inicio = date('Y-m-d', strtotime($request->data_inicio));
             $evento->inicio     = $request->inicio;
             $evento->ativo      = $request->ativo;
-            $evento->save();
 
-            //return successful response
+            $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
             //return error message
            // die($e);
-            return response()->json(['message' => 'Eventos Registration Failed!'], 409);
+            return response()->json([ 'message' => 'Eventos Registration Failed!'], 409);
         }
 
     }

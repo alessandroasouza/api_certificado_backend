@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class UserController   extends Controller{
 
     public function __construct(){
-     $this->middleware('auth');
+        $this->middleware('auth');
     
     }
 
@@ -63,17 +63,21 @@ class UserController   extends Controller{
          Auth::logout();
        }
 
-     public function update(Request $request){
-        $user = User::find($request->id);
+     public function update(Request $request, $id){
+        //$data = User::find($id);
+        //$data->update($request->all());
+        /**/
+        $user = User::find($id);
 
+        
         $data = array_filter($request->all(), function($item){
           return !empty($item[0]);
         });
-
-        $user->fill($data);
+        
+        $user->update($data);
         $user->save();
-
-        return response()->json($user);
+        
+        return response()->json($data);
      }
 }
 

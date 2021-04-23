@@ -34,13 +34,13 @@ $router->group(['prefix' => 'api/user'], function () use ($router) {
     $router->get('/perfil', 'UserController@perfil');
     $router->get('/{id}', 'UserController@show');
     $router->get('/', 'UserController@index');
-    $router->post('/update', 'UserController@update');
+    $router->post('/update/{id}', 'UserController@update');
     $router->post('/delete', 'UserController@destroy');
     $router->post('/logout', 'UserController@logout');
  });
 
  
-Route::group(['middleware' => 'auth'], function ($router) {
+//Route::group(['middleware' => 'auth'], function ($router) {
     $router->group(['prefix' => 'api/eventos'], function () use ($router) {
        $router->get('/', 'EventosController@index');
        $router->post('/store', 'EventosController@store');
@@ -52,4 +52,4 @@ Route::group(['middleware' => 'auth'], function ($router) {
     $router->group(['prefix' => 'api/user'], function () use ($router) {
         $router->post('/resetPassword', 'AuthController@resetPassword'); 
        });
-});
+//});
