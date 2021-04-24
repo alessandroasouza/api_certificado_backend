@@ -19,6 +19,10 @@
 10. php artisan db:seed para gerar dados fakes de teste
 
 
+11. php artisan key:generate
+php artisan jwt:secret
+
+
 composer require flipbox/lumen-generator
  $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
  
