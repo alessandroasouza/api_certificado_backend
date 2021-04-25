@@ -48,6 +48,7 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
@@ -87,6 +88,12 @@ $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
+
+
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+ ]);
+
 
 /*
 |--------------------------------------------------------------------------
