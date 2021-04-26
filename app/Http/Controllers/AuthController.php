@@ -26,8 +26,8 @@ class AuthController  extends BaseController
         $this->validate($request, [
             'nome' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'min:6|required_with:password_confirmation|same:password-confirm',
-            'password-confirm' => 'min:6'
+            'password' => 'min:6|required_with:password_confirmation|same:confirm',
+            'confirm' => 'min:6'
         ]);
 
         try {
