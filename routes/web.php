@@ -2,6 +2,8 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use App\Models\Inscricao;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -40,16 +42,24 @@ $router->group(['prefix' => 'api/user'], function () use ($router) {
  });
 
  
-//Route::group(['middleware' => 'auth'], function ($router) {
-    $router->group(['prefix' => 'api/eventos'], function () use ($router) {
-       $router->get('/', 'EventosController@index');
-       $router->post('/store', 'EventosController@store');
-       $router->get('/{id}', 'EventosController@show');
-       $router->post('/delete', 'EventosController@destroy');
-       $router->post('/update', 'EventosController@update');
-    });
+$router->group(['prefix' => 'api/eventos'], function () use ($router) {
+    $router->get('/', 'EventosController@index');
+    $router->post('/store', 'EventosController@store');
+    $router->get('/{id}', 'EventosController@show');
+    $router->post('/delete', 'EventosController@destroy');
+    $router->post('/update', 'EventosController@update');
+});
 
-    $router->group(['prefix' => 'api/user'], function () use ($router) {
-        $router->post('/resetPassword', 'AuthController@resetPassword'); 
-       });
-//});
+$router->group(['prefix' => 'api/inscricao'], function () use ($router){
+    $router->get('/index', 'InscricaoController@index');
+    $router->get('/show/{id}', 'InscricaoController@index');
+    $router->get('/details/{id}', 'InscricaoController@details');
+    $router->get('/listfull/{id}', 'InscricaoController@listfulluser');
+    $router->post('/store', 'InscricaoController@store');
+    $router->post('/update', 'InscricaoController@update');
+    $router->post('/delete', 'InscricaoController@destroy');
+});
+
+$router->group(['prefix' => 'api/user'], function () use ($router) {
+    $router->post('/resetPassword', 'AuthController@resetPassword'); 
+});

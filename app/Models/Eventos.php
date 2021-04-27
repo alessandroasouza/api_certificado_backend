@@ -11,4 +11,8 @@ class Eventos extends Model
     protected $fillable = [
         'descricao', 'nota', 'inicio', 'id_usuario', 'ativo', 'data_inicio'
     ];
+
+    public function inscricoes(){
+        return $this->hasMany(Inscricao::class, 'id_evento', 'id');
+    }
 }

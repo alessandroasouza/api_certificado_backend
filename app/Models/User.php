@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Model implements AuthenticatableContract, AuthorizableContract,JWTSubject
 {
     use Authenticatable, Authorizable, HasFactory;
-
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +23,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         'nome', 'email', 'apelido', 'tipo_usuario', 'celular'
     ];
+
+      /**/
 
     /**
      * The attributes excluded from the model's JSON form.

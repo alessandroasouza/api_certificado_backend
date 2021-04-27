@@ -31,5 +31,6 @@ class CreatePasswordResetTable extends Migration
     public function down()
     {
         Schema::dropIfExists('password_reset');
+        DB::statement("DROP TABLE if exists password_reset cascade");
     }
 }

@@ -2,7 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\SchemaState;
+use Illuminate\Database\Schema\SchemaStateSchema;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateEventosTable extends Migration
 {
@@ -34,5 +37,6 @@ class CreateEventosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('eventos');
+        DB::statement("DROP TABLE if exists eventos cascade");
     }
 }

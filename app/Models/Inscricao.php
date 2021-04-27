@@ -9,6 +9,21 @@ class Inscricao extends Model
     protected $table = 'inscricao';
 
     protected $fillable = [
-        'id_usuario', 'id_evento', 'presenca_1', 'presenca_2', 'certificado'
+        'id_usuario', 
+        'id_evento', 
+        'presenca_1', 
+        'presenca_2', 
+        'campus', 
+        'semestre',
+        'certificado',
     ];
+
+       /**/
+    public function users(){
+        return $this->hasOne(User::class, $foreignKey = 'id', $localKey = 'id_usuario');
+    }
+     
+    public function evento(){
+        return $this->hasOne(Eventos::class, $foreignKey = 'id_evento', $localKey = 'id');
+    }
 }

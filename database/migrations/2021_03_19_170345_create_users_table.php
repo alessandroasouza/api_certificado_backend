@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->Increments('id');
+            $table->increments('id');
             $table->string('nome',50);
             $table->string('apelido',50);
             $table->string('email',50)->unique()->notNullable();
@@ -35,5 +35,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        DB::statement("DROP TABLE if exists users cascade");
     }
 }

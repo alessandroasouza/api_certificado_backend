@@ -21,6 +21,8 @@ class CreateInscricaoTable extends Migration
             $table->foreign('id_evento')->references('id')->on('eventos');
             $table->integer('presenca_1');
             $table->integer('presenca_2');
+            $table->string('campus',50);
+            $table->integer('semestre');
             $table->integer('certificado');
             $table->timestamps();
         });
@@ -34,5 +36,6 @@ class CreateInscricaoTable extends Migration
     public function down()
     {
         Schema::dropIfExists('inscricao');
+        DB::statement("DROP TABLE if exists inscricao cascade");
     }
 }
