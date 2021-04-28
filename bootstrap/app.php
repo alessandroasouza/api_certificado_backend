@@ -125,6 +125,8 @@ $app->register(Illuminate\Mail\MailServiceProvider::class);
 |
 */
 
+
+
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {

@@ -24,13 +24,8 @@ class InscricaoController extends Controller
     }
 
     public function show($id){
-        try {
-            $evento = Inscricao::find($id);
-            return response()->json(['evento' => $evento], 200);
-
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Inscrição não encontrado!'], 404);
-        }
+        $evento = Inscricao::find($id);
+        return response()->json(['evento' => $evento], 200);
     }
 
     public function details($id){
@@ -51,7 +46,7 @@ class InscricaoController extends Controller
     }
 
     public function store(Request $request){
-        try{
+       
             $inscricao = new Inscricao;
             $inscricao->id_usuario  = $request->id_usuario;
             $inscricao->id_evento   = $request->id_evento;
@@ -65,9 +60,7 @@ class InscricaoController extends Controller
             return response()->json([
                 'inscricao' => $inscricao,
                 'message'   => 'CREATED'], 200);
-        }catch(Exception $e){
-            return response()->json(['message' => 'Inscrição Registration Failed!'], 409);
-        }
+       
     }
 
     public function update(Request $request){
