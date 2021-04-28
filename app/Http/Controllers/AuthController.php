@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection as Collection;
+use App\Exceptions;
 
 /**
  * Class SubscriptionController
@@ -30,7 +31,7 @@ class AuthController  extends BaseController
             'confirm' => 'min:6'
         ]);
 
-        try {
+      
 
             $user = new User;
             $user->nome = $request->nome;
@@ -42,19 +43,9 @@ class AuthController  extends BaseController
             $user->campus = $request->campus;
             $plain_Password = $request->password;
             $user->password = app('hash')->make($plain_Password);
-
             $user->save();
-
-            //return successful response
             return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
-
-        } catch (\Exception $e) {
-            //return error message
-           // die($e);
-            return response()->json(['message' => 'User Registration Failed!'], 409);
         }
-
-    }
 
     public function login(Request $request)
     {
@@ -81,21 +72,13 @@ class AuthController  extends BaseController
 
     protected function login_register($register,$id)
     {
-        try {
-           
+        
             $access_tokens             = new Access_tokens;
             $access_tokens->token      =  $register->getData()->token;
             $access_tokens->expire_at  =  $register->getData()->expires_in;
             $access_tokens->user_id    = $id;
             $access_tokens->save();
-            
             return  $access_tokens;
-
-        } catch (\Exception $e) {
-           
-           return response()->json(['message' => 'User Registration Failed!'], 409);
-        }
-
     }
         
     
@@ -110,19 +93,15 @@ class AuthController  extends BaseController
 
     
     protected function savepass($email,$token,$id_user){
-        try {
            
             $password_reset             =  new Password_reset;
             $password_reset->token      =  $token;
             $password_reset->email      =  $email;
             $password_reset->user_id    =  $id_user;
             $password_reset->save();
-           
             return  $password_reset;
 
-        } catch (\Exception $e) {
-          return response()->json(['message' => 'Erro ao registrar Token do usuário'], 409);
-        }
+        
     }
     
     public function validatetoken(Request $request){

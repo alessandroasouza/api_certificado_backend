@@ -28,14 +28,8 @@ class UserController   extends Controller{
     }
 
     public function show($id){
-        try {
-            $user = User::find($id);
-            return response()->json(['user' => $user], 200);
-
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Usuário não encontrado!'], 404);
-        }
-
+       $user = User::find($id);
+        return response()->json(['user' => $user], 200);
     }
 
     public function destroy(Request $request){

@@ -15,14 +15,9 @@ class EventosController extends Controller
     }
 
     public function show($id){
-        try {
+       
             $evento = Eventos::find($id);
             return response()->json(['evento' => $evento], 200);
-
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Evento  não encontrado!'], 404);
-        }
-
     }
    
     public function destroy(Request $request){
@@ -51,9 +46,8 @@ class EventosController extends Controller
      }
   
     
-    public function store(Request $request)
-    {
-        try {
+    public function store(Request $request){
+        
             $evento = new Eventos;
             $evento->descricao  = $request->descricao;
             $evento->id_usuario = $request->id_usuario;
@@ -64,13 +58,6 @@ class EventosController extends Controller
 
             $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);
-
-        } catch (\Exception $e) {
-            //return error message
-           // die($e);
-            return response()->json([ 'message' => 'Eventos Registration Failed!'], 409);
         }
-
-    }
    
 }
