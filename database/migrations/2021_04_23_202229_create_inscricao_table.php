@@ -21,6 +21,8 @@ class CreateInscricaoTable extends Migration
             $table->foreign('id_evento')->references('id')->on('eventos');
             $table->integer('presenca_1');
             $table->integer('presenca_2');
+           // $table->integer('lib_presenca_1');
+           // $table->integer('lib_presenca_2');
             $table->string('campus',50);
             $table->integer('semestre');
             $table->integer('certificado');
