@@ -25,6 +25,8 @@ class CreateEventosTable extends Migration
             $table->date('data_inicio');
             $table->string('inicio',5);
             $table->integer('ativo');
+          //  $table->integer('carga_horaria');
+          //  $table->integer('img');
             $table->timestamps();
         });
     }

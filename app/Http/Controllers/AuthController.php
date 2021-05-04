@@ -120,7 +120,13 @@ class AuthController  extends BaseController
     }
     
     public function resetPassword(Request $request){
-        $new_pass = $request->token;
+        
+        $this->validate($request, [
+           'password' => 'min:6|required_with:password_confirmation|same:confirm',
+           'confirm' => 'min:6'
+        ]);
+        
+        $new_pass = $request->confirm;
         
         $user->password = $new_pass;
         
