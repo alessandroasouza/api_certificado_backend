@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection as Collection;
+use Illuminate\Support\Facades\Validator;
 use App\Exceptions;
 
 /**
@@ -28,10 +29,10 @@ class AuthController  extends BaseController
             'nome' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'min:6|required_with:password_confirmation|same:confirm',
-            'confirm' => 'min:6'
+           'confirm' => 'min:6'
         ]);
 
-      
+       
 
             $user = new User;
             $user->nome = $request->nome;

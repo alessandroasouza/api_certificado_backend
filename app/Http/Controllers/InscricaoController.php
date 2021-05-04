@@ -14,12 +14,7 @@ use Illuminate\Support\Str;
 
 class InscricaoController extends Controller
 {
-    
-    public function __construct(){
-        $this->middleware('auth');
-    }
-
-    public function index(){
+     public function index(){
         return response()->json(['inscricao' => Inscricao::all()], 200);
     }
 
@@ -84,6 +79,39 @@ class InscricaoController extends Controller
         }
 
         return response()->json(['message' => 'true']);
+
+    }
+
+    public function attendanceone(Request $request){
+        $id     = $request->id;
+        
+        if (Inscricao::where('id', $id)->update(['presenca_1' => 1])){
+             return response()->json(['message' => 'true']);
+        }
+   
+        return response()->json(['message' => 'Unauthorized'], 401);
+
+    }
+
+    public function attendancetwo(Request $request){
+        $id     = $request->id;
+        
+        if (Inscricao::where('id', $id)->update(['presenca_2' => 1])){
+             return response()->json(['message' => 'true']);
+        }
+   
+        return response()->json(['message' => 'Unauthorized'], 401);
+
+    }
+
+    public function hascertificate(Request $request){
+        $id     = $request->id;
+        
+        if (Inscricao::where('id', $id)->update(['certificado' => 1])){
+             return response()->json(['message' => 'true']);
+        }
+   
+         return response()->json(['message' => 'Unauthorized'], 401);
 
     }
 }
