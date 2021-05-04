@@ -50,16 +50,27 @@ $router->group(['prefix' => 'api/eventos'], function () use ($router) {
     $router->post('/update', 'EventosController@update');
 });
 
-$router->group(['prefix' => 'api/inscricao'], function () use ($router){
-    $router->get('/index', 'InscricaoController@index');
-    $router->get('/show/{id}', 'InscricaoController@index');
-    $router->get('/details/{id}', 'InscricaoController@details');
-    $router->get('/listfull/{id}', 'InscricaoController@listfulluser');
-    $router->post('/store', 'InscricaoController@store');
-    $router->post('/update', 'InscricaoController@update');
-    $router->post('/delete', 'InscricaoController@destroy');
-});
+
 
 $router->group(['prefix' => 'api/user'], function () use ($router) {
     $router->post('/resetPassword', 'AuthController@resetPassword'); 
+});
+
+
+ //Rotas com autenticação ou definir na instancia da classe
+Route::group(['middleware' => 'auth'], function ($router) {
+      
+    $router->group(['prefix' => 'api/inscricao'], function () use ($router){
+        $router->get('/index', 'InscricaoController@index');
+        $router->get('/show/{id}', 'InscricaoController@index');
+        $router->get('/details/{id}', 'InscricaoController@details');
+        $router->get('/listfull/{id}', 'InscricaoController@listfulluser');
+        $router->post('/store', 'InscricaoController@store');
+        $router->post('/update', 'InscricaoController@update');
+        $router->post('/delete', 'InscricaoController@destroy');
+        $router->post('/attendanceone', 'InscricaoController@attendanceone');
+        $router->post('/attendancetwo', 'InscricaoController@attendancetwo');
+        $router->post('/hascertificate', 'InscricaoController@hascertificate');
+    });
+    
 });
