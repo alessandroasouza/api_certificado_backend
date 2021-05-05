@@ -16,6 +16,8 @@ class Inscricao extends Model
         'campus', 
         'semestre',
         'certificado',
+        'lib_presenca_1',
+        'lib_presenca_2'
     ];
 
        /**/
