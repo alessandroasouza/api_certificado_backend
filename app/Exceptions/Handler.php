@@ -62,10 +62,11 @@ class Handler extends ExceptionHandler
           } 
           else
            
+          $msg = parent::render($request, $exception);
            return response()->json([
             'success' => false,
              'status' => 0,
-             'message' =>$exception,
+             'message' => $msg->original,
              'error_code'=> $exception->getCode() ?? '',
          ], 422);
 

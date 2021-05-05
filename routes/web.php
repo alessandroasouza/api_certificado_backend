@@ -65,12 +65,17 @@ Route::group(['middleware' => 'auth'], function ($router) {
         $router->get('/show/{id}', 'InscricaoController@index');
         $router->get('/details/{id}', 'InscricaoController@details');
         $router->get('/listfull/{id}', 'InscricaoController@listfulluser');
+        $router->get('/listevent/{id}', 'InscricaoController@listevent');
         $router->post('/store', 'InscricaoController@store');
         $router->post('/update', 'InscricaoController@update');
         $router->post('/delete', 'InscricaoController@destroy');
         $router->post('/attendanceone', 'InscricaoController@attendanceone');
         $router->post('/attendancetwo', 'InscricaoController@attendancetwo');
         $router->post('/hascertificate', 'InscricaoController@hascertificate');
+        $router->post('/certificateevent', 'InscricaoController@certificateevent');
+        $router->post('/activeattendanceone', 'InscricaoController@activeattendanceone');
+        $router->post('/activeattendancethow', 'InscricaoController@activeattendancethow');
+        
     });
     
 });

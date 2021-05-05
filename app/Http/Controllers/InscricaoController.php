@@ -40,8 +40,54 @@ class InscricaoController extends Controller
         return response()->json($inscricoes);
     }
 
-    public function store(Request $request){
+
+    public function listevent($id){
+         $list = DB::table('inscricao')
+        ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
+        ->join('eventos', function ($join) use ($id)  {
+                $join->on('inscricao.id_evento', '=', 'eventos.id')
+                     ->where('inscricao.id_evento', '=',($id) );
+            })
+            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome')
+            ->get();
+           
+            
+            return response()->json($list); 
+    }
+   
+    public function certificateevent(Request $request){
+        $id_usuario  = $request->id_usuario;
+        $id_evento   = $request->id_evento;
        
+        $list = DB::table('inscricao')
+       ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
+       ->join('eventos', function ($join) use ($id_evento,$id_usuario)  {
+               $join->on('inscricao.id_evento', '=', 'eventos.id')
+                    ->where('inscricao.id_evento', '=',($id_evento) )
+                    ->orWhere(function($query) use ($id_usuario) {
+                        $query->where('inscricao.id_usuario', '=', ($id_usuario))
+                              ->where('presenca_1', '>', 0)
+                              ->where('presenca_2', '>', 0);
+                    });
+           })
+           //->join('eventos', 'users.id', '=', 'eventos.id_usuario')    
+           ->select('inscricao.campus','inscricao.semestre', 'eventos.descricao', 'eventos.nota','users.nome',
+              'apelido','eventos.data_inicio','eventos.inicio',
+            )
+           ->get();
+          
+           
+           return response()->json($list); 
+   }
+    public function store(Request $request){
+            $user = Inscricao::all()->where('id_usuario', $request->id_usuario)->where('id_evento', $request->id_evento)->first();
+            
+            if($user){
+                return response()->json(['message' => 'Usuário Já inscrito no Evento']);   
+            }
+            
+            
+            
             $inscricao = new Inscricao;
             $inscricao->id_usuario  = $request->id_usuario;
             $inscricao->id_evento   = $request->id_evento;
@@ -108,6 +154,29 @@ class InscricaoController extends Controller
         $id     = $request->id;
         
         if (Inscricao::where('id', $id)->update(['certificado' => 1])){
+             return response()->json(['message' => 'true']);
+        }
+   
+         return response()->json(['message' => 'Unauthorized'], 401);
+
+    }
+
+
+    public function activeattendanceone(Request $request){
+        $id     = $request->id;
+        
+        if (Inscricao::where('id_evento', $id)->update(['lib_presenca_1' => 1])){
+             return response()->json(['message' => 'true']);
+        }
+   
+         return response()->json(['message' => 'Unauthorized'], 401);
+
+    }
+
+    public function activeattendancethow(Request $request){
+        $id     = $request->id;
+        
+        if (Inscricao::where('id_evento', $id)->update(['lib_presenca_2' => 1])){
              return response()->json(['message' => 'true']);
         }
    
