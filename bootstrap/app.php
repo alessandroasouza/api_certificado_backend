@@ -48,7 +48,9 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-$app['translator']->setLocale(env('APP_LOCALE', 'pt'));
+$app['translator']->setLocale(env('APP_LOCALE', 'pt-br'));
+//config(['app.locale' => 'pt']);
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files

@@ -13,25 +13,38 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection as Collection;
-use Illuminate\Support\Facades\Validator;
 use App\Exceptions;
 
 /**
  * Class SubscriptionController
  * @package App\Http\Controllers
  */
-class AuthController  extends BaseController
+
+ 
+class AuthController  extends Controller
 {
     public function store(Request $request)
     {
         //validate incoming request 
-        $this->validate($request, [
-            'nome' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'min:6|required_with:password_confirmation|same:confirm',
-           'confirm' => 'min:6'
-        ]);
+     //   $this->validate($request, [
+      //      'nome' => 'required|string',
+      //      'email' => 'required|email|unique:users',
+       //     'password' => 'min:6|required_with:password_confirmation|same:confirm',
+        //   'confirm' => 'min:6'
+       // ]);
+          
+          $isnotvalided=$this->checkform($request,
+          [
+                  'nome' => 'required|string',
+                  'email' => 'required|email|unique:users',
+                  'password' => 'min:6|required_with:password_confirmation|same:confirm',
+                  'confirm' => 'min:6'
+              ]
+          );
 
+          if ($isnotvalided){
+              return $isnotvalided;
+          }
        
 
             $user = new User;
