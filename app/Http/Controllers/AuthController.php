@@ -139,27 +139,37 @@ class AuthController  extends Controller
            'confirm' => 'min:6'
         ]);
         
-        $new_pass = $request->confirm;
+        $new_pass       = $request->password;
+        $token_email    = $request->token_email;
         
-        $user->password = $new_pass;
         
-        if ($user->update() ){
-          
-            DB::table('password_reset')->where('email', $user->email)->delete();
-          
-          return response()->json(['message' => 'true']); 
-          
-          
-          $data    = array('name'=>$name,
-                'password'=>$token,
-                'msg'=>'Senha Alterada com Sucesso'
+        $new_pass = app('hash')->make($new_pass); 
+       
+        $pass_reset       = Password_reset::where('token', $token_email)->first();
+        $created_at       =  $pass_reset->created_at;
+        $email            =  $pass_reset->email;
+
+
+        if ( ! $pass_reset) {
+            return response()->json(['message' => 'Código não encontrado'], 401);   
+        }
+        
+        $user = User::find($pass_reset->user_id);
+        
+
+        if (User::where('id', $user->id)->update(['password' => $new_pass ])) {
+            
+            $data    = array('name'=>$user->nome,
+               'msg'=>'Senha Alterada com Sucesso'
             );
           
-          Mail::send('mail', $data, function ($message) use ($email) {
+          Mail::send('mail_confirm', $data, function ($message) use ($email) {
             $message->to($email, 'Recuperação de Senha')->subject
                 ('Recuperação de Senha');
             $message->from('certificadoftc@gmail.com','FTC - Sistema Certificado');
             });
+
+            return response()->json(['message' => 'true']); 
         }
          else{
             return response()->json(['message' => 'Código não encontrado'], 401);  

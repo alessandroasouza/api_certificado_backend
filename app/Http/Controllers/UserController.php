@@ -56,10 +56,12 @@ class UserController   extends Controller{
          Auth::logout();
        }
 
-     public function update(Request $request, $id){
+     public function update(Request $request){
         //$data = User::find($id);
         //$data->update($request->all());
         /**/
+        $id  = $request->id;
+        
         $user = User::find($id);
 
         
