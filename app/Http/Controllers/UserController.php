@@ -8,7 +8,7 @@ use  App\Models\User;
 use  App\Models\Access_tokens;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 /**
  * Class SubscriptionController
  * @package App\Http\Controllers
@@ -74,6 +74,40 @@ class UserController   extends Controller{
         
         return response()->json($data);
      }
+
+     public function updatepassword(Request $request){
+        
+      $this->validate($request, [
+         'password' => 'min:6|required_with:password_confirmation|same:confirm',
+         'confirm' => 'min:6'
+      ]);
+      
+      $new_pass       = $request->password;
+      $user_id        = $request->id;
+      $new_pass       = app('hash')->make($new_pass); 
+     
+      $user = User::find($user_id);
+      $email = $user->email; 
+
+      if (User::where('id', $user->id)->update(['password' => $new_pass ])) {
+          
+          $data    = array('name'=>$user->nome,
+             'msg'=>'Senha Alterada com Sucesso'
+          );
+        
+        Mail::send('mail_confirm', $data, function ($message) use ($email) {
+          $message->to($email, 'Recuperação de Senha')->subject
+              ('Recuperação de Senha');
+          $message->from('certificadoftc@gmail.com','FTC - Sistema Certificado');
+          });
+
+          return response()->json(['message' => 'true']); 
+      }
+       else{
+          return response()->json(['message' => 'erro na atualização'], 401);  
+      }
+  }
+
 }
 
     
