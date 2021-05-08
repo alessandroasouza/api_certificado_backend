@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('tipo_usuario',15);
             $table->string('celular',15);
             $table->string('documento',25);
-            $table->string('campus',40);
+            $table->string('campus',50);
             $table->timestamps();
         });
     }
