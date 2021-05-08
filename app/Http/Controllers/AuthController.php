@@ -48,16 +48,18 @@ class AuthController  extends Controller
        
 
             $user = new User;
-            $user->nome = $request->nome;
-            $user->email = $request->email;
-            $user->apelido = $request->apelido;
+            $user->nome         = $request->nome;
+            $user->email        = $request->email;
+            $user->apelido      = $request->apelido;
             $user->tipo_usuario = $request->tipo_usuario;
-            $user->celular = $request->celular;
-            $user->documento = $request->documento;
-            $user->campus = $request->campus;
-            $plain_Password = $request->password;
-            $user->password = app('hash')->make($plain_Password);
+            $user->celular      = $request->celular;
+            $user->documento    = $request->documento;
+            $user->campus       = $request->campus;
+            $plain_Password     = $request->password;
+            $user->password     = app('hash')->make($plain_Password);
+            $user->semestre     = $request->semestre; 
             $user->save();
+            
             return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
         }
 
