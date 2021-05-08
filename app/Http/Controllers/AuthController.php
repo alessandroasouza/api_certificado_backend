@@ -154,6 +154,12 @@ class AuthController  extends Controller
             return response()->json(['message' => 'Código não encontrado'], 401);   
         }
         
+        
+      //  $experid = Carbon::parse($created_at); 
+      //  $experid->addHours(2);
+       // echo $created_at; 
+       // dd();
+        
         $user = User::find($pass_reset->user_id);
         
 

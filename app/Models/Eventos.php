@@ -9,7 +9,7 @@ class Eventos extends Model
     protected $table = 'eventos';
 
     protected $fillable = [
-        'descricao', 'nota', 'inicio', 'id_usuario', 'ativo', 'data_inicio'
+        'descricao', 'nota', 'inicio', 'id_usuario', 'ativo', 'data_inicio','img','carga_horaria'
     ];
 
     public function inscricoes(){
