@@ -49,13 +49,15 @@ class EventosController extends Controller
     public function store(Request $request){
         
             $evento = new Eventos;
-            $evento->descricao  = $request->descricao;
-            $evento->id_usuario = $request->id_usuario;
-            $evento->nota       = $request->nota;
-            $evento->data_inicio = date('Y-m-d', strtotime($request->data_inicio));
-            $evento->inicio     = $request->inicio;
-            $evento->ativo      = $request->ativo;
-
+            $evento->descricao       = $request->descricao;
+            $evento->id_usuario      = $request->id_usuario;
+            $evento->nota            = $request->nota;
+            $evento->data_inicio     = date('Y-m-d', strtotime($request->data_inicio));
+            $evento->inicio          = $request->inicio;
+            $evento->ativo           = $request->ativo;
+            $evento->carga_horaria   = $request->carga_horaria;
+            $evento->img             = $request->img;
+            
             $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);
         }
