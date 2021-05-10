@@ -11,8 +11,8 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                          <a href="https://rakeshmandal.com" title="logo" target="_blank">
-                            <img width="60" src="" title="logo" alt="logo">
+                          <a href="" title="logo" target="_blank">
+                            <img width="60" src="https://github.com/jeffsoncavalcante/certfacil-front/blob/main/src/assets/images/certifacil.png" title="logo" alt="logo">
                           </a>
                         </td>
                     </tr>
