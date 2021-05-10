@@ -96,7 +96,9 @@ class InscricaoController extends Controller
             $inscricao->campus      = $request->campus;
             $inscricao->semestre    = $request->semestre;
             $inscricao->certificado = $request->certificado;
-
+            $inscricao->lib_presenca_1 = $request->lib_presenca_1; 
+            $inscricao->lib_presenca_2 = $request->lib_presenca_2; 
+            
             $inscricao->save();
             return response()->json([
                 'inscricao' => $inscricao,
