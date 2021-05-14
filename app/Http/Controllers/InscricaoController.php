@@ -54,6 +54,21 @@ class InscricaoController extends Controller
             
             return response()->json($list); 
     }
+
+    public function listeventusers($id){
+        $list = DB::table('inscricao')
+       ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
+       ->join('eventos', function ($join) use ($id)  {
+               $join->on('inscricao.id_evento', '=', 'eventos.id')
+                    ->where('inscricao.id_usuario', '=',($id) );
+           })
+           ->join('users as usup', 'users.id', '=','eventos.id_usuario')     
+           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante')
+           ->get();
+          
+           
+           return response()->json($list); 
+   }
    
     public function certificateevent(Request $request){
         $id_usuario  = $request->id_usuario;
