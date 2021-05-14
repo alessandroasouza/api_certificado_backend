@@ -10,8 +10,10 @@ class EventosController extends Controller
     {
         $this->middleware('auth');
     }
+    
     public function index(){
-        return response()->json(['eventos' =>  Eventos::all()], 200);
+        $evento = Eventos::all();
+        return response()->json(['message' => $evento], 401);
     }
 
     public function show($id){

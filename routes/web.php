@@ -44,7 +44,7 @@ $router->group(['prefix' => 'api/user'], function () use ($router) {
 
  
 $router->group(['prefix' => 'api/eventos'], function () use ($router) {
-    $router->get('/', 'EventosController@index');
+    $router->get('/index', 'EventosController@index');
     $router->post('/store', 'EventosController@store');
     $router->get('/{id}', 'EventosController@show');
     $router->post('/delete', 'EventosController@destroy');
@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function ($router) {
         $router->get('/details/{id}', 'InscricaoController@details');
         $router->get('/listfull/{id}', 'InscricaoController@listfulluser');
         $router->get('/listevent/{id}', 'InscricaoController@listevent');
+        $router->get('/listeventusers/{id}', 'InscricaoController@listeventusers'); 
         $router->post('/store', 'InscricaoController@store');
         $router->post('/update', 'InscricaoController@update');
         $router->post('/delete', 'InscricaoController@destroy');
