@@ -13,7 +13,7 @@ class EventosController extends Controller
     
     public function index(){
         $evento = Eventos::all();
-        return response()->json(['message' => $evento], 401);
+        return response()->json(['message' => $evento], 200);
     }
 
     public function show($id){
