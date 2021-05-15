@@ -48,7 +48,8 @@ class InscricaoController extends Controller
                 $join->on('inscricao.id_evento', '=', 'eventos.id')
                      ->where('inscricao.id_evento', '=',($id) );
             })
-            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome')
+            ->join('users as usup', 'users.id', '=','eventos.id_usuario')     
+            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
             ->get();
            
             
@@ -148,22 +149,27 @@ class InscricaoController extends Controller
     public function attendanceone(Request $request){
         $id     = $request->id;
         
-        if (Inscricao::where('id', $id)->update(['presenca_1' => 1])){
-             return response()->json(['message' => 'true']);
-        }
-   
-        return response()->json(['message' => 'Unauthorized'], 401);
+        $inscricao   = Inscricao::find($id);
+
+        if ( $inscricao->lib_presenca_1==1){
+            if (Inscricao::where('id', $id)->update(['presenca_1' => 1])){
+                return response()->json(['message' => 'true']);
+           }
+        } else
+         return response()->json(['message' => 'Chamada ainda não liberado'], 401);
 
     }
 
     public function attendancetwo(Request $request){
         $id     = $request->id;
-        
-        if (Inscricao::where('id', $id)->update(['presenca_2' => 1])){
-             return response()->json(['message' => 'true']);
-        }
+        $inscricao   = Inscricao::find($id);
+        if ( $inscricao->lib_presenca_1==1){  
+            if (Inscricao::where('id', $id)->update(['presenca_2' => 1])){
+                return response()->json(['message' => 'true']);
+            }
+       }
    
-        return response()->json(['message' => 'Unauthorized'], 401);
+       return response()->json(['message' => 'Chamada ainda não liberado'], 401);
 
     }
 
