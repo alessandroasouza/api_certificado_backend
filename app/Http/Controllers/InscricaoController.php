@@ -63,7 +63,7 @@ class InscricaoController extends Controller
                     ->where('inscricao.id_usuario', '=',($id) );
            })
            ->join('users as usup', 'users.id', '=','eventos.id_usuario')     
-           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante')
+           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
            ->get();
           
            
