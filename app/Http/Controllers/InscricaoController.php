@@ -188,6 +188,12 @@ class InscricaoController extends Controller
     public function activeattendanceone(Request $request){
         $id     = $request->id;
         
+        $inscricao   = $user = DB::table('Inscricao')->where('id_evento', $id)->first(); 
+        
+       if ( $inscricao->lib_presenca_1==1){  
+            return response()->json(['message' => 'Chamada já liberada anteriormente'], 401);  
+        }
+        
         if (Inscricao::where('id_evento', $id)->update(['lib_presenca_1' => 1])){
              return response()->json(['message' => 'true']);
         }
@@ -198,6 +204,16 @@ class InscricaoController extends Controller
 
     public function activeattendancethow(Request $request){
         $id     = $request->id;
+        
+        $inscricao   = $user = DB::table('Inscricao')->where('id_evento', $id)->first(); 
+        
+        if ( $inscricao->lib_presenca_2==1){  
+            return response()->json(['message' => 'Chamada Já liberada anteriormente'], 401);  
+        }
+        
+        if ( $inscricao->lib_presenca_1==0){  
+            return response()->json(['message' => 'Chamada 1 não foi liberada'], 401);  
+         }
         
         if (Inscricao::where('id_evento', $id)->update(['lib_presenca_2' => 1])){
              return response()->json(['message' => 'true']);
