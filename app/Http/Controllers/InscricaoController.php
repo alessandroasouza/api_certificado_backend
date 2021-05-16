@@ -52,7 +52,11 @@ class InscricaoController extends Controller
             ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
             ->get();
            
-            
+            if(!$list){
+                return response()->json([
+                    'error' => 'Dados não encontrados'
+                ], 404);
+            }
             return response()->json($list); 
     }
 
@@ -63,8 +67,7 @@ class InscricaoController extends Controller
                $join->on('inscricao.id_evento', '=', 'eventos.id')
                     ->where('inscricao.id_usuario', '=',($id) );
            })
-           ->join('users as usup', 'users.id', '=','eventos.id_usuario')     
-           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
            ->get();
           
            
