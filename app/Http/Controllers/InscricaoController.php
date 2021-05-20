@@ -11,6 +11,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class InscricaoController extends Controller
 {
@@ -74,6 +75,21 @@ class InscricaoController extends Controller
            return response()->json($list); 
    }
    
+   public function listeventteacher($id){
+    $list = DB::table('inscricao')
+   ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
+   ->join('eventos', function ($join) use ($id)  {
+           $join->on('eventos.id_usuario', '=', 'users.id')
+                ->where('eventos.id_usuario', '=',($id) );
+       })
+       ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome as palestrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+       ->get();
+      
+       
+       return response()->json($list); 
+    }  
+
+
     public function certificateevent(Request $request){
         $id_usuario  = $request->id_usuario;
         $id_evento   = $request->id_evento;
@@ -102,10 +118,15 @@ class InscricaoController extends Controller
             $user = Inscricao::all()->where('id_usuario', $request->id_usuario)->where('id_evento', $request->id_evento)->first();
             
             if($user){
-                return response()->json(['message' => 'Usuário Já inscrito no Evento']);   
+                return response()->json(['message' => 'Usuário Já inscrito no Evento'], 401);   
             }
+
             
+            $evento = Eventos::all()->where('id', $request->id_evento)->where('ativo', '1')->first(); 
             
+            if($evento){
+                return response()->json(['message' => 'Evento desativado'], 401);   
+            }
             
             $inscricao = new Inscricao;
             $inscricao->id_usuario  = $request->id_usuario;
@@ -154,26 +175,37 @@ class InscricaoController extends Controller
         
         $inscricao   = Inscricao::find($id);
 
-        if ( $inscricao->lib_presenca_1==1){
-            if (Inscricao::where('id', $id)->update(['presenca_1' => 1])){
+        if ( $inscricao->presenca_1==1){  
+            return response()->json(['message' => 'Chamada 1 já respondida'], 401); 
+          }
+        
+         $date = Carbon::now();
+         if (Inscricao::where('id', $id)->where('presenca_1', '0')->where('lib_presenca_1', '1')->update(['presenca_1' => 1,'data_presenca1' => $date])){
                 return response()->json(['message' => 'true']);
            }
-        } else
-         return response()->json(['message' => 'Chamada ainda não liberado'], 401);
+        
+         return response()->json(['message' => 'Não autorizado'], 401);
 
     }
 
     public function attendancetwo(Request $request){
         $id     = $request->id;
         $inscricao   = Inscricao::find($id);
-        if ( $inscricao->lib_presenca_1==1){  
-            if (Inscricao::where('id', $id)->update(['presenca_2' => 1])){
-                return response()->json(['message' => 'true']);
-            }
-       }
-   
-       return response()->json(['message' => 'Chamada ainda não liberado'], 401);
+        
+        if ( $inscricao->presenca_1==0){  
+            return response()->json(['message' => 'Chamada 1 ainda não foi respondida'], 401); 
+         }
 
+         if ( $inscricao->presenca_2==1){  
+            return response()->json(['message' => 'Chamada 2 já respondida'], 401); 
+          }
+   
+          $date = Carbon::now();
+          if (Inscricao::where('id', $id)->where('presenca_2', '0')->where('lib_presenca_2', '1')->update(['presenca_2' => 1,'data_presenca1' => $date])){
+           return response()->json(['message' => 'true']);
+         }
+       
+          return response()->json(['message' => 'Não autorizado'], 401);
     }
 
     public function hascertificate(Request $request){
@@ -193,11 +225,9 @@ class InscricaoController extends Controller
         
         $inscricao   = $user = DB::table('Inscricao')->where('id_evento', $id)->first(); 
         
-       if ( $inscricao->lib_presenca_1==1){  
-            return response()->json(['message' => 'Chamada já liberada anteriormente'], 401);  
-        }
+        $date = Carbon::now();
         
-        if (Inscricao::where('id_evento', $id)->update(['lib_presenca_1' => 1])){
+        if (Inscricao::where('id_evento', $id)->update(['lib_presenca_1' => 1,'data_chamada1' => $date])){
              return response()->json(['message' => 'true']);
         }
    
@@ -210,15 +240,14 @@ class InscricaoController extends Controller
         
         $inscricao   = $user = DB::table('Inscricao')->where('id_evento', $id)->first(); 
         
-        if ( $inscricao->lib_presenca_2==1){  
-            return response()->json(['message' => 'Chamada Já liberada anteriormente'], 401);  
-        }
+       
         
         if ( $inscricao->lib_presenca_1==0){  
             return response()->json(['message' => 'Chamada 1 não foi liberada'], 401);  
          }
         
-        if (Inscricao::where('id_evento', $id)->update(['lib_presenca_2' => 1])){
+         $date = Carbon::now();
+         if (Inscricao::where('id_evento', $id)->update(['lib_presenca_2' => 1,'data_chamada2' => $date])){
              return response()->json(['message' => 'true']);
         }
    
