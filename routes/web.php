@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function ($router) {
         $router->post('/certificateevent', 'InscricaoController@certificateevent');
         $router->post('/activeattendanceone', 'InscricaoController@activeattendanceone');
         $router->post('/activeattendancethow', 'InscricaoController@activeattendancethow');
+        $router->get('/listeventteacher/{id}', 'InscricaoController@listeventteacher');
         
     });
     
