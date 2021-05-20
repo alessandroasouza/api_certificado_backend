@@ -114,6 +114,8 @@ class InscricaoController extends Controller
            
            return response()->json($list); 
    }
+    
+   
     public function store(Request $request){
             $user = Inscricao::all()->where('id_usuario', $request->id_usuario)->where('id_evento', $request->id_evento)->first();
             
@@ -180,9 +182,22 @@ class InscricaoController extends Controller
           }
         
          $date = Carbon::now();
+        
+          
+          
+         $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $inscricao->data_chamada1);
+         $date2 = Carbon::createFromFormat('Y-m-d H:i:s', $date);
+         $value = $date2->diffInHours($date1);
+         
+        
+
+         if ($value>1){
+           return response()->json(['message' => 'Não autorizado, você tem apenas o limte de 1h para responder a chamada'], 401);
+          }
+         
          if (Inscricao::where('id', $id)->where('presenca_1', '0')->where('lib_presenca_1', '1')->update(['presenca_1' => 1,'data_presenca1' => $date])){
                 return response()->json(['message' => 'true']);
-           }
+        }
         
          return response()->json(['message' => 'Não autorizado'], 401);
 
@@ -201,7 +216,21 @@ class InscricaoController extends Controller
           }
    
           $date = Carbon::now();
-          if (Inscricao::where('id', $id)->where('presenca_2', '0')->where('lib_presenca_2', '1')->update(['presenca_2' => 1,'data_presenca1' => $date])){
+          
+          
+          $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $inscricao->data_chamada2);
+          $date2 = Carbon::createFromFormat('Y-m-d H:i:s', $date);
+          $value = $date2->diffInHours($date1);
+          
+         
+
+          if ($value>1){
+            return response()->json(['message' => 'Não autorizado, você tem apenas o limte de 1h para responder a chamada'], 401);
+           }
+          
+         
+         
+          if (Inscricao::where('id', $id)->where('presenca_2', '0')->where('lib_presenca_2', '1')->update(['presenca_2' => 1,'data_presenca2' => $date])){
            return response()->json(['message' => 'true']);
          }
        
