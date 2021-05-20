@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
             $app->configure('services');
             return $app->loadComponent('mail', 'Illuminate\Mail\MailServiceProvider', 'mailer');
         });
+
+        setlocale(LC_TIME, 'pt-br');
     }
 
     
