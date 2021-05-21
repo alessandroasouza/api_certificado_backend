@@ -7,7 +7,7 @@
 
 
 
-5.Renomear o arquivo .env.example para .env e alterar as configurações do banco local;
+5.Renomear o arquivo .env.example para .env e alterar as configurações do banco local e defina APP_TIMEZONE="America/Sao_Paulo"
 
 
 7.Executar o migration para criar a estrutura do banco de dados[php artisan migrate];

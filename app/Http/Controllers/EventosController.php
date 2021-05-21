@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use  App\Models\Eventos;
+use App\Models\Inscricao;
 
 class EventosController extends Controller
 {
@@ -13,7 +14,7 @@ class EventosController extends Controller
     
     public function index(){
         $evento = Eventos::all();
-        return response()->json(['message' => $evento], 401);
+        return response()->json(['message' => $evento], 200);
     }
 
     public function show($id){
@@ -24,6 +25,14 @@ class EventosController extends Controller
    
     public function destroy(Request $request){
         $id     = $request->id;
+        
+       
+        $inscricao = Inscricao::all()->where('id_evento', $id);
+       
+        if (!$inscricao->isEmpty()) { 
+            return response()->json(['message' => 'Este evento está sendo usado numa inscrição'], 401);
+        } else 
+         
         $evento   = Eventos::find($id);
       
         if (!$evento->delete()){

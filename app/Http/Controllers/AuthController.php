@@ -54,6 +54,12 @@ class AuthController  extends Controller
           if ($isnotvalided){
               return $isnotvalided;
           }
+
+          $cpfvalidate = $this->validaCPF($request->documento);
+
+          if ($cpfvalidate){
+            return $cpfvalidate;
+            }
        
 
             $user = new User;
