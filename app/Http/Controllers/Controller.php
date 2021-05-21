@@ -19,11 +19,12 @@ class Controller extends BaseController
 
     public function checkform(Request $request,$rules,$fields=[] ){
         $messages = include './../resources/lang/pt/validation.php';
-       
+        
+        
 
         $validator = Validator::make($request->all(),
             $rules, 
-            $messages,
+            $messages['validations'],
             $fields
           );  
          
@@ -34,7 +35,7 @@ class Controller extends BaseController
             $errors = $validator->errors();
 
             return  response()->json([
-                'success' => false,
+                 'success' => false,
                  'status' => 0,
                  'message' => 'texto',
                  'errors'=> $errors->all(),

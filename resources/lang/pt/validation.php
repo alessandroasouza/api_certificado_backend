@@ -1,6 +1,6 @@
 <?php
 
-return [
+return $message = [
 
     /*
     |--------------------------------------------------------------------------
@@ -12,7 +12,23 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-
+    
+    
+    'validations' => [
+        'nome.required' => 'O nome deve ser informado',
+        'email.unique' => 'E-mail já cadastrado em nosso sistema.',
+        'email.email' => 'O email deve ser um endereço de email válido.',
+        'apelido.required' => 'Informe o seu apelido',
+        'tipo_usuario.required' => 'O tipo do usuário deve ser informado',
+        'celular.required' => 'O celular deve ser informado',
+        'documento.required' => 'Info DOC',
+        'password.required' => 'Você deve informar a senha.',
+        'password.min' => 'A senha deve ter no minimo 6 caracteres.',
+        'password.same' => 'As senhas não conferem.',
+        'confirm.min' => 'A confirmação da senha deve ter no minimo 6 caracteres.',
+        'confirm.required' => 'Confirmação de senha necessaria.',
+        'campus.required' => 'O campus deve ser informado',
+    ],
     'accepted' => 'The :attribute must be accepted.',
     'active_url' => 'The :attribute is not a valid URL.',
     'after' => 'The :attribute must be a date after :date.',
@@ -39,7 +55,7 @@ return [
     'digits_between' => 'The :attribute must be between :min and :max digits.',
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
-    'email' => 'The :attribute must be a valid email address.',
+    
     'ends_with' => 'The :attribute must end with one of the following: :values.',
     'exists' => 'The selected :attribute is invalid.',
     'file' => 'The :attribute must be a file.',

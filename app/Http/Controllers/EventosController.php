@@ -27,7 +27,7 @@ class EventosController extends Controller
         $evento   = Eventos::find($id);
       
         if (!$evento->delete()){
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Não autorizado'], 401);
         }
 
         return response()->json(['message' => 'true']);
@@ -57,8 +57,8 @@ class EventosController extends Controller
             $evento->data_inicio     = date('Y-m-d', strtotime($request->data_inicio));
             $evento->inicio          = $request->inicio;
             $evento->ativo           = $request->ativo;
-            $evento->carga_horaria   = $request->carga_horaria;
-            $evento->img             = $request->img;
+            //$evento->carga_horaria   = $request->carga_horaria;
+            //$evento->img             = $request->img;
             
             $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);

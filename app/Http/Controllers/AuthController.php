@@ -32,16 +32,25 @@ class AuthController  extends Controller
        //     'password' => 'min:6|required_with:password_confirmation|same:confirm',
         //   'confirm' => 'min:6'
        // ]);
-          
-          $isnotvalided=$this->checkform($request,
-          [
-                  'nome' => 'required|string',
-                  'email' => 'required|email|unique:users',
-                  'password' => 'min:6|required_with:password_confirmation|same:confirm',
-                  'confirm' => 'min:6'
-              ]
-          );
-
+       /*
+        $mensagens = [
+            'email.unique' => 'Email já cadastrado em nosso sistema!'
+        ];
+        */
+        $isnotvalided=$this->checkform($request,
+        [
+                'nome' => 'required|string',
+                'email' => 'required|email|unique:users',
+                'apelido' => 'required',
+                'tipo_usuario' => 'required',
+                'celular' => 'required',
+                'documento' => 'required',
+                'password' => 'min:6|required|required_with:password_confirmation|same:confirm',
+                'confirm' => 'min:6|required',
+                'campus' => 'required',
+            ]
+        );
+////////Trecho antigo 
           if ($isnotvalided){
               return $isnotvalided;
           }
@@ -74,7 +83,7 @@ class AuthController  extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if (! $token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Verifique seus dados.'], 401);
         }
 
         $id = Auth::id();

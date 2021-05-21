@@ -68,7 +68,6 @@ class UserController   extends Controller{
         $data = array_filter($request->all(), function($item){
           return !empty($item[0]);
         });
-        
         $user->update($data);
         $user->save();
         

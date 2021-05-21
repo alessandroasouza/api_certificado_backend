@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth'], function ($router) {
       
     $router->group(['prefix' => 'api/inscricao'], function () use ($router){
         $router->get('/index', 'InscricaoController@index');
-        $router->get('/show/{id}', 'InscricaoController@index');
+        $router->get('/show/{id}', 'InscricaoController@show');
         $router->get('/details/{id}', 'InscricaoController@details');
         $router->get('/listfull/{id}', 'InscricaoController@listfulluser');
         $router->get('/listevent/{id}', 'InscricaoController@listevent');
