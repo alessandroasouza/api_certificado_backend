@@ -50,7 +50,7 @@ class InscricaoController extends Controller
                      ->where('inscricao.id_evento', '=',($id) );
             })
             ->join('users as usup', 'users.id', '=','eventos.id_usuario')     
-            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','usup.nome as nome_paletrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio','img')
             ->get();
            
             if(!$list){
@@ -69,7 +69,7 @@ class InscricaoController extends Controller
                     ->where('inscricao.id_usuario', '=',($id) );
            })
            ->join('users as palestrante', DB::raw( 'palestrante.id' ), '=', 'eventos.id_usuario')    
-           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome',DB::raw( 'palestrante.nome as nome_palestrante' ),'eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome',DB::raw( 'palestrante.nome as nome_palestrante' ),'eventos.carga_horaria','eventos.data_inicio','eventos.inicio','img')
            ->get();
           
            
@@ -89,7 +89,7 @@ class InscricaoController extends Controller
             ->join('users as palestrante', DB::raw( 'palestrante.id' ), '=', 'eventos.id_usuario')    
             ->where('eventos.id_usuario', $id )
         
-            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome',DB::raw( 'palestrante.nome as nome_palestrante' ),'eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome',DB::raw( 'palestrante.nome as nome_palestrante' ),'eventos.carga_horaria','eventos.data_inicio','eventos.inicio','img')
         ->get();
         
         if(!$list){
