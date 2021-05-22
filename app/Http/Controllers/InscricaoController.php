@@ -68,28 +68,36 @@ class InscricaoController extends Controller
                $join->on('inscricao.id_evento', '=', 'eventos.id')
                     ->where('inscricao.id_usuario', '=',($id) );
            })
-           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+           ->join('users as palestrante', DB::raw( 'palestrante.id' ), '=', 'eventos.id_usuario')    
+           ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome',DB::raw( 'palestrante.nome as nome_palestrante' ),'eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
            ->get();
           
+           
+           if(!$list){
+            return response()->json([
+                'error' => 'Dados não encontrados'
+            ], 404);
+        }
            
            return response()->json($list); 
    }
    
    public function listeventteacher($id){
-    $list = DB::table('inscricao')
-        ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
-        ->join('eventos', 'eventos.id', '=', 'inscricao.id_evento')
-        ->where('eventos.id_usuario', $id )
-       
-        ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
-       ->get();
-      
-       if(!$list){
-        return response()->json([
-            'error' => 'Dados não encontrados'
-        ], 404);
-    }
-       return response()->json($list); 
+        $list = DB::table('inscricao')
+            ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
+            ->join('eventos', 'eventos.id', '=', 'inscricao.id_evento')
+            ->join('users as palestrante', DB::raw( 'palestrante.id' ), '=', 'eventos.id_usuario')    
+            ->where('eventos.id_usuario', $id )
+        
+            ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome',DB::raw( 'palestrante.nome as nome_palestrante' ),'eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+        ->get();
+        
+        if(!$list){
+            return response()->json([
+                'error' => 'Dados não encontrados'
+            ], 404);
+        }
+        return response()->json($list); 
     }  
 	
 
@@ -256,7 +264,7 @@ class InscricaoController extends Controller
     public function activeattendanceone(Request $request){
         $id     = $request->id;
         
-        $inscricao   = $user = DB::table('Inscricao')->where('id_evento', $id)->first(); 
+        $inscricao   = $user = DB::table('inscricao')->where('id_evento', $id)->first(); 
         
         $date = Carbon::now();
         
@@ -271,7 +279,7 @@ class InscricaoController extends Controller
     public function activeattendancethow(Request $request){
         $id     = $request->id;
         
-        $inscricao   = $user = DB::table('Inscricao')->where('id_evento', $id)->first(); 
+        $inscricao   = $user = DB::table('inscricao')->where('id_evento', $id)->first(); 
         
        
         
