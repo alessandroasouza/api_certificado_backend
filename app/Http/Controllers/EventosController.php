@@ -44,17 +44,32 @@ class EventosController extends Controller
     }
     
     public function update(Request $request){
+        
+        $id  = $request->id;
+        
         $evento = Eventos::find($request->id);
-        $request['data_inicio'] = date('Y-m-d', strtotime($request->data_inicio));
+        
         $data = array_filter($request->all(), function($item){
           return !empty($item[0]);
         });
-
-        $evento->fill($data);
+        
+        $evento->ativo = $request->ativo; 
+        
+        if(!empty($request->input('ativo'))) {
+            $evento->ativo = $request->ativo; 
+    
+        } else {
+            
+            $evento->ativo = $evento->ativo;
+    
+        }
+        
+        
+        $evento->update($data);
         $evento->save();
-
+        
         return response()->json($evento);
-     }
+    }
   
     
     public function store(Request $request){
@@ -66,8 +81,8 @@ class EventosController extends Controller
             $evento->data_inicio     = date('Y-m-d', strtotime($request->data_inicio));
             $evento->inicio          = $request->inicio;
             $evento->ativo           = $request->ativo;
-            //$evento->carga_horaria   = $request->carga_horaria;
-            //$evento->img             = $request->img;
+            $evento->carga_horaria   = $request->carga_horaria;
+            $evento->img             = $request->img;
             
             $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);
