@@ -77,17 +77,21 @@ class InscricaoController extends Controller
    
    public function listeventteacher($id){
     $list = DB::table('inscricao')
-   ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
-   ->join('eventos', function ($join) use ($id)  {
-           $join->on('eventos.id_usuario', '=', 'users.id')
-                ->where('eventos.id_usuario', '=',($id) );
-       })
-       ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome as palestrante','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
+        ->join('users', 'users.id', '=', 'inscricao.id_usuario')    
+        ->join('eventos', 'eventos.id', '=', 'inscricao.id_evento')
+        ->where('eventos.id_usuario', $id )
+       
+        ->select('inscricao.*', 'eventos.descricao', 'eventos.nota','users.nome','eventos.carga_horaria','eventos.data_inicio','eventos.inicio')
        ->get();
       
-       
+       if(!$list){
+        return response()->json([
+            'error' => 'Dados não encontrados'
+        ], 404);
+    }
        return response()->json($list); 
     }  
+	
 
 
     public function certificateevent(Request $request){

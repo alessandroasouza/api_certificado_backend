@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Inscricao extends Model
 {
@@ -33,4 +34,20 @@ class Inscricao extends Model
     public function evento(){
         return $this->hasOne(Eventos::class, $foreignKey = 'id_evento', $localKey = 'id');
     }
+
+     public function listuserpalestrante($id){
+          
+        $str ="SELECT i.*,e.descricao,e.nota,a.nome,s.nome as palestrante,".
+            " e.carga_horaria,e.data_inicio,e.inicio".
+            " FROM inscricao i ".
+            " INNER JOIN users a on (a.id = i.id_usuario)".
+            " inner join eventos e on (e.id=i.id_evento)".
+            " inner join users s on (s.id=e.id_usuario)".
+            "where s.id=$id";
+
+           // $result = DB::select($str);
+           $result = 'sandro' ;
+           return $result;    
+
+     }
 }
