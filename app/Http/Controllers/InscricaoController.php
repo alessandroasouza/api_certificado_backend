@@ -243,7 +243,7 @@ class InscricaoController extends Controller
          
          
           if (Inscricao::where('id', $id)->where('presenca_2', '0')->where('lib_presenca_2', '1')->update(['presenca_2' => 1,'data_presenca2' => $date])){
-           return response()->json(['message' => 'true']);
+              return response()->json(['message' => 'true']);
          }
        
           return response()->json(['message' => 'Não autorizado'], 401);
