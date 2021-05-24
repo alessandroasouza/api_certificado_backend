@@ -136,11 +136,21 @@ class InscricaoController extends Controller
             }
 
             
-            $evento = Eventos::all()->where('id', $request->id_evento)->where('ativo', '1')->first(); 
+            $evento = Eventos::all()->where('id', $request->id_evento)->first(); 
             
-            if($evento){
+            $ativo = $evento->ativo;
+            
+            if($ativo==1){
                 return response()->json(['message' => 'Evento desativado'], 401);   
             }
+
+            $date  = Carbon::now();
+            $date1 = Carbon::createFromFormat('Y-m-d', $evento->data_inicio);
+        
+           
+             if ( strtotime($date1) <= strtotime($date)  ){
+                return response()->json(['message' => 'Inscrição encerrada!'], 401); 
+             }
             
             $inscricao = new Inscricao;
             $inscricao->id_usuario  = $request->id_usuario;

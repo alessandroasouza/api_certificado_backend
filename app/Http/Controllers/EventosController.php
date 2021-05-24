@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use  App\Models\Eventos;
 use App\Models\Inscricao;
+use Carbon\Carbon;
 
 class EventosController extends Controller
 {
@@ -53,15 +54,13 @@ class EventosController extends Controller
           return !empty($item[0]);
         });
         
-        $evento->ativo = $request->ativo; 
+        $evento->ativo         = $request->ativo; 
+        $evento->carga_horaria = $request->carga_horaria; 
         
         if(!empty($request->input('ativo'))) {
             $evento->ativo = $request->ativo; 
-    
         } else {
-            
             $evento->ativo = $evento->ativo;
-    
         }
         
         
@@ -73,6 +72,15 @@ class EventosController extends Controller
   
     
     public function store(Request $request){
+            
+            $date  = Carbon::now();
+            $date1 = Carbon::createFromFormat('Y-m-d', $request->data_inicio);
+        
+           
+             if ( strtotime($date1) < strtotime($date)  ){
+                return response()->json(['message' => 'Data do evento menor que atual'], 401); 
+             }
+            //$value = $date2->diffInHours($date1); 
         
             $evento = new Eventos;
             $evento->descricao       = $request->descricao;
