@@ -78,7 +78,7 @@ class EventosController extends Controller
         
            
              if ( strtotime($date1) < strtotime($date)  ){
-                return response()->json(['message' => 'Data do evento menor que atual'], 401); 
+                 return response()->json(['message' => 'Data do evento menor que atual'], 401); 
              }
             //$value = $date2->diffInHours($date1); 
         
@@ -91,6 +91,7 @@ class EventosController extends Controller
             $evento->ativo           = $request->ativo;
             $evento->carga_horaria   = $request->carga_horaria;
             $evento->img             = $request->img;
+            $evento->video           = $request->video;
             
             $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);
