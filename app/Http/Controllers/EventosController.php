@@ -13,6 +13,8 @@ class EventosController extends Controller
         $this->middleware('auth');
     }
     
+    
+    
     public function index(){
         $evento = Eventos::all();
         return response()->json(['message' => $evento], 200);
@@ -56,6 +58,7 @@ class EventosController extends Controller
         
         $evento->ativo         = $request->ativo; 
         $evento->carga_horaria = $request->carga_horaria; 
+        $evento->id_modelo = $request->id_modelo;  
         
         if(!empty($request->input('ativo'))) {
             $evento->ativo = $request->ativo; 
@@ -92,7 +95,7 @@ class EventosController extends Controller
             $evento->carga_horaria   = $request->carga_horaria;
             $evento->img             = $request->img;
             $evento->video           = $request->video;
-            
+            $evento->id_modelo           = $request->id_modelo; 
             $evento->save();
             return response()->json(['user' => $evento, 'message' => 'CREATED'], 201);
         }
