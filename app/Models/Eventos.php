@@ -9,8 +9,7 @@ class Eventos extends Model
     protected $table = 'eventos';
 
     protected $fillable = [
-        'descricao', 'nota', 'inicio', 'id_usuario', 'ativo', 'data_inicio','img','carga_horaria','video'
-    ];
+        'descricao', 'nota', 'inicio', 'id_usuario', 'ativo', 'data_inicio','img','carga_horaria','video','id_modelo'];
 
     public function inscricoes(){
         return $this->hasMany(Inscricao::class, 'id_evento', 'id');

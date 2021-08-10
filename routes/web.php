@@ -51,6 +51,14 @@ $router->group(['prefix' => 'api/eventos'], function () use ($router) {
     $router->post('/update', 'EventosController@update');
 });
 
+$router->group(['prefix' => 'api/modelo'], function () use ($router) {
+    $router->get('/index', 'ModeloController@index');
+    $router->post('/store', 'ModeloController@store');
+    $router->get('/{id}', 'ModeloController@show');
+    $router->post('/delete', 'ModeloController@destroy');
+    $router->post('/update', 'ModeloController@update');
+});
+
 
 
 $router->group(['prefix' => 'api/user'], function () use ($router) {
